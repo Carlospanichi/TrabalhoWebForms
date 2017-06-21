@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BancoFerramentaBD.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BancoFerramentaBDStoreContainer">
+    <EntitySet Name="Ferramentas" EntityType="BancoFerramentaBD.Store.Ferramentas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Lotes" EntityType="BancoFerramentaBD.Store.Lotes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="LoteFerramenta" Association="BancoFerramentaBD.Store.LoteFerramenta">
+      <End Role="Lote" EntitySet="Lotes" />
+      <End Role="Ferramenta" EntitySet="Ferramentas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Ferramentas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Matricula" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Diametro" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LoteId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Lotes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Descricao" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="LoteFerramenta">
+    <End Role="Lote" Type="BancoFerramentaBD.Store.Lotes" Multiplicity="1" />
+    <End Role="Ferramenta" Type="BancoFerramentaBD.Store.Ferramentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lote">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ferramenta">
+        <PropertyRef Name="LoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BancoFerramentaBD" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BancoFerramentaBDContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ferramentas" EntityType="BancoFerramentaBD.Ferramenta" />
+          <EntitySet Name="Lotes" EntityType="BancoFerramentaBD.Lote" />
+          <AssociationSet Name="LoteFerramenta" Association="BancoFerramentaBD.LoteFerramenta">
+            <End Role="Lote" EntitySet="Lotes" />
+            <End Role="Ferramenta" EntitySet="Ferramentas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Ferramenta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Matricula" Type="String" Nullable="false" />
+          <Property Name="Diametro" Type="String" Nullable="false" />
+          <NavigationProperty Name="Lote" Relationship="BancoFerramentaBD.LoteFerramenta" FromRole="Ferramenta" ToRole="Lote" />
+          <Property Name="LoteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Descricao" Type="String" Nullable="false" />
+          <NavigationProperty Name="Ferramentas" Relationship="BancoFerramentaBD.LoteFerramenta" FromRole="Lote" ToRole="Ferramenta" />
+        </EntityType>
+        <Association Name="LoteFerramenta">
+          <End Type="BancoFerramentaBD.Lote" Role="Lote" Multiplicity="1" />
+          <End Type="BancoFerramentaBD.Ferramenta" Role="Ferramenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ferramenta">
+              <PropertyRef Name="LoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BancoFerramentaBDStoreContainer" CdmEntityContainer="BancoFerramentaBDContainer">
+    <EntitySetMapping Name="Ferramentas">
+      <EntityTypeMapping TypeName="IsTypeOf(BancoFerramentaBD.Ferramenta)">
+        <MappingFragment StoreEntitySet="Ferramentas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+          <ScalarProperty Name="Diametro" ColumnName="Diametro" />
+          <ScalarProperty Name="LoteId" ColumnName="LoteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lotes">
+      <EntityTypeMapping TypeName="IsTypeOf(BancoFerramentaBD.Lote)">
+        <MappingFragment StoreEntitySet="Lotes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
